@@ -10,7 +10,8 @@ import matplotlib.pylab as plt
 # ROGÉRIO BUSO DE ANDRADE - 12011FMT009
 # THAYNÁ CAROLINE SABINO DE ASSUMPÇÃO - 11811FMD013
 # Laboratório de Física Básica 2
-######################################################
+# ------------Oscilações------------------------------
+#######################################################
 
 # Importa os dados coletados do experimento com uma mola, considerando a primeira massa
 umamola = pd.read_csv("mola_massa1.csv", keep_default_na=True) #importa a lista de dados
