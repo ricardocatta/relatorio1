@@ -5,8 +5,10 @@ import numpy as np
 import pandas as pd
 import matplotlib.pylab as plt
 ######################################################
-# Ricardo Tadeu Oliveira Catta Preta
-# matrícula: 11911FMT028
+# ELISA RODRIGUES DE SOUSA COUTINHO - 11811FMD021
+# RICARDO TADEU OLIVEIRA CATTA PRETA - 11911FMT028
+# ROGÉRIO BUSO DE ANDRADE - 12011FMT009
+# THAYNÁ CAROLINE SABINO DE ASSUMPÇÃO - 11811FMD013
 # Laboratório de Física Básica 2
 ######################################################
 
