@@ -45,16 +45,11 @@ def mola_serie():
     print("l = ", l)
 
     #Cálculo do erro associado para o tempo
-    t_ea = np.array([sm.erro_associado(pendulo.t1, 4, 0.0005), sm.erro_associado(pendulo.t2, 4, 0.0005), 
-    sm.erro_associado(pendulo.t3, 4, 0.0005), sm.erro_associado(pendulo.t4, 4, 0.0005), 
-    sm.erro_associado(pendulo.t5, 4, 0.0005), sm.erro_associado(pendulo.t6, 4, 0.0005), 
-    sm.erro_associado(pendulo.t7, 4, 0.0005), sm.erro_associado(pendulo.t8, 4, 0.0005)])
+    t_ea = np.array([0.0005, 0.0005, 0.0005, 0.0005, 0.0005,0.0005,0.0005, 0.0005])
 
     #Cálculo do erro associado para a massa
-    l_ea = np.array([sm.erro_associado(pendulo.l1, 4, 0.0005), sm.erro_associado(pendulo.l2, 4, 0.0005), 
-    sm.erro_associado(pendulo.l3, 4, 0.0005), sm.erro_associado(pendulo.l4, 4, 0.0005), 
-    sm.erro_associado(pendulo.l5, 4, 0.0005), sm.erro_associado(pendulo.l6, 4, 0.0005),
-    sm.erro_associado(pendulo.l7, 4, 0.0005), sm.erro_associado(pendulo.l8, 4, 0.0005)])
+    l_ea = np.array([0.0005, 0.0005, 0.0005, 0.0005, 0.0005,0.0005,0.0005, 0.0005])
+
     print("t_ea = ", t_ea)
     print("l_ea = ", l_ea)
 
@@ -121,12 +116,12 @@ def mola_serie():
     plt.style.use('ggplot')
     fig = plt.figure(dpi=130)
     axes1 = fig.add_subplot(1, 1, 1)
-    #axes1.set_ylabel('$\ln{t}$ $[s]$')
-    #axes1.set_xlabel('$\ln{l}$ $[m]$')
-    axes1.set_ylabel('${t}$ $[s]$')
-    axes1.set_xlabel('${l}$ $[m]$')
-    plt.plot(l, t, '-', label="L x T")
-    #plt.plot(ln_l, y1, '-', label="regressão linear por MMQ")
+    axes1.set_ylabel('$\ln{t}$ $[s]$')
+    axes1.set_xlabel('$\ln{l}$ $[m]$')
+    #axes1.set_ylabel('${t}$ $[s]$')
+    #axes1.set_xlabel('${l}$ $[m]$')
+    #plt.plot(l, t, '-', label="L x T")
+    plt.plot(ln_l, y1, '-', label="regressão linear por MMQ")
     #Coloca a barra de erro%
     ls = ''
 
@@ -136,49 +131,49 @@ def mola_serie():
     gravidade = ((2 * np.pi) / (10**(b1))) ** 2
     print("gravidade = \n", gravidade)
 
-    dl_dt = 1 / np.mean(l)
-    delta_m = np.mean(l_ea)
-    dk_dt = 1 / np.mean(t)
-    delta_t = np.mean(t_ea)
-    delta_k = gravidade * np.sqrt((dl_dt * delta_m) ** 2 + (2 * dk_dt * delta_t) ** 2)
-    print("delta_gravidade = \n", delta_k)
-
-    for i in range(len(t)):
-        if i == 0:
-            plt.errorbar(l[i], t[i], xerr=l_ea[i],  yerr=t_ea[i], linestyle=ls, marker='o',label ="ponto experimental para l1")  
-        elif i == 1:
-            plt.errorbar(l[i], t[i], xerr=l_ea[i],  yerr=t_ea[i], linestyle=ls, marker='o',label ="ponto experimental para l2")
-        elif i == 2:
-            plt.errorbar(l[i], t[i], xerr=l_ea[i],  yerr=t_ea[i], linestyle=ls, marker='o',label ="ponto experimental para l3")
-        elif i == 3:
-            plt.errorbar(l[i], t[i], xerr=l_ea[i],  yerr=t_ea[i], linestyle=ls, marker='o',label ="ponto experimental para l4")
-        elif i == 4:
-            plt.errorbar(l[i], t[i], xerr=l_ea[i],  yerr=t_ea[i], linestyle=ls, marker='o',label ="ponto experimental para l5")
-        elif i == 5:
-            plt.errorbar(l[i], t[i], xerr=l_ea[i],  yerr=t_ea[i], linestyle=ls, marker='o',label ="ponto experimental para l6")
-        elif i == 6:
-            plt.errorbar(l[i], t[i], xerr=l_ea[i],  yerr=t_ea[i], linestyle=ls, marker='o',label ="ponto experimental para l7")    
-        else:
-            plt.errorbar(l[i], t[i], xerr=l_ea[i],  yerr=t_ea[i], linestyle=ls, marker='o',label ="pontos experimentais P8")
+    dg_dl = ((2 * np.pi) / np.mean(t)) ** 2
+    delta_l = 0.0005
+    dg_dt = -((8 * (np.pi ** 2) * np.mean(l))  / (np.mean(t) ** 3))
+    delta_t = 0.0005
+    delta_g = np.sqrt((dg_dl * delta_l) ** 2 + (dg_dt * delta_t) ** 2)
+    print("delta_gravidade = \n", delta_g)
 
     #for i in range(len(t)):
     #    if i == 0:
-    #        plt.errorbar(ln_l[i], ln_t[i], xerr=propaga_inc_lnl[i],  yerr=propaga_inc_lnt[i], linestyle=ls, marker='o',label ="ponto experimental para l1")  
+    #        plt.errorbar(l[i], t[i], xerr=l_ea[i],  yerr=t_ea[i], linestyle=ls, marker='o',label ="ponto experimental l1")  
     #    elif i == 1:
-    #        plt.errorbar(ln_l[i], ln_t[i], xerr=propaga_inc_lnl[i],  yerr=propaga_inc_lnt[i], linestyle=ls, marker='o',label ="ponto experimental para l2")
+    #        plt.errorbar(l[i], t[i], xerr=l_ea[i],  yerr=t_ea[i], linestyle=ls, marker='o',label ="ponto experimental l2")
     #    elif i == 2:
-    #        plt.errorbar(ln_l[i], ln_t[i], xerr=propaga_inc_lnl[i],  yerr=propaga_inc_lnt[i], linestyle=ls, marker='o',label ="ponto experimental para l3")
+    #        plt.errorbar(l[i], t[i], xerr=l_ea[i],  yerr=t_ea[i], linestyle=ls, marker='o',label ="ponto experimental l3")
     #    elif i == 3:
-    #        plt.errorbar(ln_l[i], ln_t[i], xerr=propaga_inc_lnl[i],  yerr=propaga_inc_lnt[i], linestyle=ls, marker='o',label ="ponto experimental para l4")
+    #        plt.errorbar(l[i], t[i], xerr=l_ea[i],  yerr=t_ea[i], linestyle=ls, marker='o',label ="ponto experimental l4")
     #    elif i == 4:
-    #        plt.errorbar(ln_l[i], ln_t[i], xerr=propaga_inc_lnl[i],  yerr=propaga_inc_lnt[i], linestyle=ls, marker='o',label ="ponto experimental para l5")
+    #        plt.errorbar(l[i], t[i], xerr=l_ea[i],  yerr=t_ea[i], linestyle=ls, marker='o',label ="ponto experimental l5")
     #    elif i == 5:
-    #        plt.errorbar(ln_l[i], ln_t[i], xerr=propaga_inc_lnl[i],  yerr=propaga_inc_lnt[i], linestyle=ls, marker='o',label ="ponto experimental para l6")
+    #        plt.errorbar(l[i], t[i], xerr=l_ea[i],  yerr=t_ea[i], linestyle=ls, marker='o',label ="ponto experimental l6")
     #    elif i == 6:
-    #        plt.errorbar(ln_l[i], ln_t[i], xerr=propaga_inc_lnl[i],  yerr=propaga_inc_lnt[i], linestyle=ls, marker='o',label ="ponto experimental para l7")            
+    #        plt.errorbar(l[i], t[i], xerr=l_ea[i],  yerr=t_ea[i], linestyle=ls, marker='o',label ="ponto experimental l7")    
     #    else:
-    #        plt.errorbar(ln_l[i], ln_t[i], xerr=propaga_inc_lnl[i],  yerr=propaga_inc_lnt[i], linestyle=ls, marker='o',label ="pontos experimentais P8")
-    #
+    #        plt.errorbar(l[i], t[i], xerr=l_ea[i],  yerr=t_ea[i], linestyle=ls, marker='o',label ="ponto experimental l8")
+
+    for i in range(len(t)):
+        if i == 0:
+            plt.errorbar(ln_l[i], ln_t[i], xerr=propaga_inc_lnl[i],  yerr=propaga_inc_lnt[i], linestyle=ls, marker='o',label ="ponto experimental l1")  
+        elif i == 1:
+            plt.errorbar(ln_l[i], ln_t[i], xerr=propaga_inc_lnl[i],  yerr=propaga_inc_lnt[i], linestyle=ls, marker='o',label ="ponto experimental l2")
+        elif i == 2:
+            plt.errorbar(ln_l[i], ln_t[i], xerr=propaga_inc_lnl[i],  yerr=propaga_inc_lnt[i], linestyle=ls, marker='o',label ="ponto experimental l3")
+        elif i == 3:
+            plt.errorbar(ln_l[i], ln_t[i], xerr=propaga_inc_lnl[i],  yerr=propaga_inc_lnt[i], linestyle=ls, marker='o',label ="ponto experimental l4")
+        elif i == 4:
+            plt.errorbar(ln_l[i], ln_t[i], xerr=propaga_inc_lnl[i],  yerr=propaga_inc_lnt[i], linestyle=ls, marker='o',label ="ponto experimental l5")
+        elif i == 5:
+            plt.errorbar(ln_l[i], ln_t[i], xerr=propaga_inc_lnl[i],  yerr=propaga_inc_lnt[i], linestyle=ls, marker='o',label ="ponto experimental l6")
+        elif i == 6:
+            plt.errorbar(ln_l[i], ln_t[i], xerr=propaga_inc_lnl[i],  yerr=propaga_inc_lnt[i], linestyle=ls, marker='o',label ="ponto experimental l7")            
+        else:
+            plt.errorbar(ln_l[i], ln_t[i], xerr=propaga_inc_lnl[i],  yerr=propaga_inc_lnt[i], linestyle=ls, marker='o',label ="ponto experimental l8")
+    
     fig.tight_layout()
     plt.title("Pêndulo simples")
     plt.legend(loc='best')
